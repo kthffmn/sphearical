@@ -1,0 +1,48 @@
+body {
+  background: #fcfcfa;
+}
+
+.stroke {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+path#globe {
+  fill: lightskyblue;
+}
+
+.land {
+  fill: grey;
+}
+
+.boundary {
+  fill: none;
+  stroke: azure;
+  stroke-width: .5px;
+}
+
+.label {
+  font-size: .5em;
+}
+
+.active {
+  fill: khaki;
+}
+
+text {
+  font-family: "Helvetica", sans-serif;
+  font-size: 2em;
+  color: azure;
+}
