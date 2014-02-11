@@ -1,20 +1,20 @@
 body {
-  background: #fcfcfa;
+  background: white;
 }
 
 .stroke {
   fill: none;
-  stroke: #000;
+  stroke: black;
   stroke-width: 3px;
 }
 
 .fill {
-  fill: #fff;
+  fill: white;
 }
 
 .graticule {
   fill: none;
-  stroke: #777;
+  stroke: grey;
   stroke-width: .5px;
   stroke-opacity: .5;
 }
