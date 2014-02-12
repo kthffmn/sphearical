@@ -1,13 +1,28 @@
 <!doctype html>
 <html>
   <head>
-    <title>Rotating Globe</title>
+    <title>Sphearical</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="world.js"></script>
   </head>
   <body>
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script type="text/javascript" src="world.js"></script>
+    <h1>Music Mapper</h1>
+    <h2>An auditorienter</h2>
+    <div id="container">
+      <div id="map"></div>
+      <div id="music">
+        <p>
+          Click on a country to hear the its most streamed song on Spotify. 
+        </p>
+        <p>
+          To rotate globe, click and drag.
+        </p>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,7 +1,42 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
 body {
-  background: white;
+  background: black;
+  color: #FFFFFF;
+  font-family: 'Montserrat', sans-serif;
 }
 
+h2, h1 {
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  display: block;
+}
+
+#container {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  height: 805px;
+  width: 1150px;
+}
+
+#map {
+  display: inline-block;
+  position: absolute;
+  float: left;
+}
+
+#music {
+  position: absolute;
+  display: inline-block;
+  background-color: grey;
+  height: 380px;
+  width: 300px;
+  top: 200px;
+  left: 800px;
+  padding: 10px;
+  border-radius: 3px;
+}
 .stroke {
   fill: none;
   stroke: black;
@@ -20,11 +55,12 @@ body {
 }
 
 path#globe {
-  fill: lightskyblue;
+  fill: #5D72FA;
 }
 
 .land {
-  fill: grey;
+  fill: #1D1D1D;
+  cursor: pointer;
 }
 
 .boundary {
@@ -38,11 +74,10 @@ path#globe {
 }
 
 .active {
-  fill: khaki;
+  fill: #88bd32;
 }
 
 text {
-  font-family: "Helvetica", sans-serif;
-  font-size: 2em;
-  color: azure;
+  font-size: 1em;
+  fill: #FFFFFF;
 }

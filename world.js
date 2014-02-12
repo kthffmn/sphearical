@@ -1,3 +1,5 @@
+$(function() {
+
 var width = 800,
     height = 800;
 
@@ -10,52 +12,68 @@ var path = d3.geo.path().projection(projection);
 
 var graticule = d3.geo.graticule();
 
-var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+var svg = d3.select("#map").append("svg").attr("width", width).attr("height", height);
 
 var names = {};
+
+var countryCodes = {};
 
 svg.append("path")
    .datum({type: "Sphere"})
    .attr("id", "globe")
    .attr("d", path);
 
-// svg.append("path")
-//    .datum(graticule)
-//    .attr("class", "graticule")
-//    .attr("d", path);
-
 queue()
 .defer(d3.json, "world.json")
-.defer(d3.tsv, "countrynames.tsv")
+.defer(d3.tsv, "countryNumbers.tsv")
+.defer(d3.tsv, "countryAbbreviations.tsv")
 .await(ready);
 
-function ready(error, world, countries) {
+
+
+function ready(error, world, countries, abbreviations) {
   countries.forEach(function(d) {
     names[d.id] = d.name;
+  });
+
+  abbreviations.forEach(function(d) {
+    countryCodes[d.name] = d.abb;
   });
 
   svg.selectAll("path.land")
      .data(topojson.feature(world, world.objects.countries).features)
      .enter().append("path")
      .attr("class", "land")
+     .attr("cursor", "pointer")
      .attr("d", path)
      .on("mouseover", function(d) {
         d3.select(this).attr("class", "active");
-
         svg.append("text")
            .text(names[d.id])
-           .attr("x", d3.event.pageX)
-           .attr("y", d3.event.pageY);
+           .attr("x", d3.event.pageX + 10)
+           .attr("y", d3.event.pageY - 100);
      })
      .on("mousemove", function(d) {
         d3.select("text")
-          .attr("x", d3.event.pageX)
-          .attr("y", d3.event.pageY);
+          .attr("x", d3.event.pageX + 10)
+          .attr("y", d3.event.pageY - 100);
       })
      .on("mouseout", function(d) {
         d3.select(this).classed('active', false).classed('land', true);
         d3.select("text").remove();
-      });
+      })
+     .on("click", function(d) {
+        var countryName = names[d.id];
+        var country = countryCodes[countryName];
+        if (country) {
+          $.get("http://charts.spotify.com/api/charts/most_streamed/" + country + "/latest", function(data) {
+            var song = data.tracks[0];
+            $("#music").empty().append('<a href="' + song.track_url + '">' + song.track_name + '</a>');
+          }, "jsonp");
+        } else {
+          $("#music").empty().append('<p>Sorry, Spotify is not available in ' + countryName);
+        }
+     });
 
   svg.insert("path", ".graticule")
      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
@@ -90,4 +108,6 @@ var drag = d3.behavior.drag().on('drag', function() {
   projection.rotate([end.lon,end.lat]);
 
   svg.selectAll("path").attr("d", path);
+});
+
 });
