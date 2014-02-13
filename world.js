@@ -50,13 +50,13 @@ function ready(error, world, countries, abbreviations) {
         d3.select(this).attr("class", "active");
         svg.append("text")
            .text(names[d.id])
-           .attr("x", d3.event.pageX + 10)
-           .attr("y", d3.event.pageY - 100);
+           .attr("x", d3.event.pageX - 127)
+           .attr("y", d3.event.pageY + 25);
      })
      .on("mousemove", function(d) {
         d3.select("text")
-          .attr("x", d3.event.pageX + 10)
-          .attr("y", d3.event.pageY - 100);
+          .attr("x", d3.event.pageX - 127)
+          .attr("y", d3.event.pageY + 25);
       })
      .on("mouseout", function(d) {
         d3.select(this).classed('active', false).classed('land', true);

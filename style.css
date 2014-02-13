@@ -8,16 +8,31 @@ body {
 
 h2, h1 {
   font-family: 'Montserrat', sans-serif;
-  text-align: center;
-  display: block;
+  position: absolute;
+  white-space: nowrap;
+  white-space: pre;
+}
+
+h1 {
+  top: 80px;
+  left: 962px;
+  font-size: 2.2em;
+  text-shadow: 0.7px 0.7px rgba(80,80,80,.8);
+  height: 15px;
+  display: inline-block;
+}
+
+h2 {
+  top: 120px;
+  left: 985px;
+  font-size: 1.8em;
 }
 
 #container {
   display: block;
   position: relative;
-  margin: 0 auto;
-  height: 805px;
   width: 1150px;
+  left: 140px;
 }
 
 #map {
@@ -36,6 +51,7 @@ h2, h1 {
   left: 800px;
   padding: 10px;
   border-radius: 3px;
+  font-size: 1.5em;
 }
 .stroke {
   fill: none;
