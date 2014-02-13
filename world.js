@@ -68,7 +68,10 @@ function ready(error, world, countries, abbreviations) {
         if (country) {
           $.get("http://charts.spotify.com/api/charts/most_streamed/" + country + "/latest", function(data) {
             var song = data.tracks[0];
-            $("#music").empty().append('<a href="' + song.track_url + '">' + song.track_name + '</a>');
+            var url = song.track_url;
+            var myReg = /track\/(.+)/g;
+            var trackNum = myReg.exec(url)[1];
+            $("#music").empty().append('<p class="countryName">#1 streamed track in ' + countryName + ' is:</p><iframe src="https://embed.spotify.com/?uri=spotify:track:' + trackNum + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
           }, "jsonp");
         } else {
           $("#music").empty().append('<p>Sorry, Spotify is not available in ' + countryName);
