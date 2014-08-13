@@ -1,5 +1,7 @@
 $(function() {
 
+var countryName;
+
 var width = 800,
     height = 800;
 
@@ -63,18 +65,23 @@ function ready(error, world, countries, abbreviations) {
         d3.select("text").remove();
       })
      .on("click", function(d) {
-        var countryName = names[d.id];
+        countryName = names[d.id];
         var country = countryCodes[countryName];
         if (country) {
-          $.get("http://charts.spotify.com/api/charts/most_streamed/" + country + "/latest", function(data) {
-            var song = data.tracks[0];
-            var url = song.track_url;
-            var myReg = /track\/(.+)/g;
-            var trackNum = myReg.exec(url)[1];
-            $("#music").empty().append('<p class="countryName">#1 streamed track in ' + countryName + ' is:</p><iframe src="https://embed.spotify.com/?uri=spotify:track:' + trackNum + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
-          }, "jsonp");
+          var country_url =  "http://charts.spotify.com/api/tracks/most_streamed/" + country + "/weekly/latest"
+          $.ajax({
+            url : country_url,
+            dataType : "jsonp",
+            success : function(data) {
+              var song = data.tracks[0];
+              var url = song.track_url;
+              var myReg = /track\/(.+)/g;
+              var trackNum = myReg.exec(url)[1];
+              $("#music").empty().append('<p class="countryName">#1 streamed track in ' + countryName + ' is:</p><iframe src="https://embed.spotify.com/?uri=spotify:track:' + trackNum + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+            }
+          });
         } else {
-          $("#music").empty().append('<p>Sorry, Spotify is not available in ' + countryName);
+          $("#music").empty().append('<p>Sorry, Spotify is not available in ' + countryName + '</p>');
         }
      });
 
