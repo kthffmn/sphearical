@@ -1,7 +1,5 @@
 $(function() {
 
-var countryName;
-
 var width = 800,
     height = 800;
 
@@ -65,7 +63,7 @@ function ready(error, world, countries, abbreviations) {
         d3.select("text").remove();
       })
      .on("click", function(d) {
-        countryName = names[d.id];
+        var countryName = names[d.id];
         var country = countryCodes[countryName];
         if (country) {
           var country_url =  "http://charts.spotify.com/api/tracks/most_streamed/" + country + "/weekly/latest"
