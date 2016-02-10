@@ -6,7 +6,8 @@ var width = 800,
 var projection = d3.geo.orthographic()
                        .scale(350)
                        .translate([width/2, height/2])
-                       .clipAngle(90);
+                       .clipAngle(90)
+                       .rotate([90, -30]);
 
 var path = d3.geo.path().projection(projection);
 
@@ -28,8 +29,6 @@ queue()
 .defer(d3.tsv, "countryNumbers.tsv")
 .defer(d3.tsv, "countryAbbreviations.tsv")
 .await(ready);
-
-
 
 function ready(error, world, countries, abbreviations) {
   countries.forEach(function(d) {
@@ -66,18 +65,14 @@ function ready(error, world, countries, abbreviations) {
         var countryName = names[d.id];
         var country = countryCodes[countryName];
         if (country) {
-          var country_url =  "http://charts.spotify.com/api/tracks/most_streamed/" + country + "/weekly/latest"
-          $.ajax({
-            url : country_url,
-            dataType : "jsonp",
-            success : function(data) {
-              var song = data.tracks[0];
-              var url = song.track_url;
-              var myReg = /track\/(.+)/g;
-              var trackNum = myReg.exec(url)[1];
-              $("#music").empty().append('<p class="countryName">#1 streamed track in ' + countryName + ' is:</p><iframe src="https://embed.spotify.com/?uri=spotify:track:' + trackNum + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+          var url = "https://spotifycharts.com/api/?type=regional&country=" + country + "&recurrence=daily&date=latest&limit=1";
+          $.get("https://jsonp.afeld.me/", {url: url}, function(data) {
+              var id = data.entries.items[0].track.id;
+              var paragraph = '<p class="countryName">#1 streamed track in ' + countryName + ' is:</p>';
+              var iFrame = '<iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>';
+              $("#music").empty().append(paragraph + iFrame);
             }
-          });
+          );
         } else {
           $("#music").empty().append('<p>Sorry, Spotify is not available in ' + countryName + '</p>');
         }
@@ -92,27 +87,27 @@ function ready(error, world, countries, abbreviations) {
 }
 
 var drag = d3.behavior.drag().on('drag', function() {
-  var start = { 
-    lon: projection.rotate()[0], 
+  var start = {
+    lon: projection.rotate()[0],
     lat: projection.rotate()[1]
   },
 
-  delta = { 
+  delta = {
     x: d3.event.dx,
-    y: d3.event.dy  
+    y: d3.event.dy
   },
-    
+
   scale = 0.25,
 
-  end = { 
-    lon: start.lon + delta.x * scale, 
-    lat: start.lat - delta.y * scale 
+  end = {
+    lon: start.lon + delta.x * scale,
+    lat: start.lat - delta.y * scale
   };
 
   end.lat = end.lat >  30 ?  30 :
             end.lat < -30 ? -30 :
             end.lat;
-  
+
   projection.rotate([end.lon,end.lat]);
 
   svg.selectAll("path").attr("d", path);
