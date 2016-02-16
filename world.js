@@ -67,9 +67,9 @@ function ready(error, world, countries, abbreviations) {
         if (country) {
           var url = "https://spotifycharts.com/api/?type=regional&country=" + country + "&recurrence=daily&date=latest&limit=1";
           $.get("https://jsonp.afeld.me/", {url: url}, function(data) {
-              var id = data.entries.items[0].track.id;
+              var uri = data.entries.items[0].track.uri;
+              var iFrame = '<iframe src="https://embed.spotify.com/?uri=' + uri + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>';
               var paragraph = '<p class="countryName">#1 streamed track in ' + countryName + ' is:</p>';
-              var iFrame = '<iframe src="https://embed.spotify.com/?uri=spotify:track:' + id + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>';
               $("#music").empty().append(paragraph + iFrame);
             }
           );
