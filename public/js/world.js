@@ -25,9 +25,9 @@ svg.append("path")
    .attr("d", path);
 
 queue()
-.defer(d3.json, "world.json")
-.defer(d3.tsv, "countryNumbers.tsv")
-.defer(d3.tsv, "countryAbbreviations.tsv")
+.defer(d3.json, "../public/misc/world.json")
+.defer(d3.tsv, "../public/misc/countryNumbers.tsv")
+.defer(d3.tsv, "../public/misc/countryAbbreviations.tsv")
 .await(ready);
 
 function ready(error, world, countries, abbreviations) {
